@@ -34,6 +34,13 @@ mongoose.connect(process.env.DB_CONNECT, {
 });
 app.use('/api/cocktails', cock);
 app.use(express.static('public'));
+app.use(express.static('public'));
+app.use('/', express.static(path.join(__dirname, 'uploads')));
+
+// Default Route
+app.get('*', (req, res, next) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 app.listen(PORT, () => {
     console.log(`Server is running on PORT ${PORT}`);
 });

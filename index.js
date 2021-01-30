@@ -22,17 +22,23 @@ mongoose.Promise = global.Promise;
 require("dotenv").config();
 var db;
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 }, function (err, database) {
-    if (err) {
-        return console.log(err)
-    };
-    db = database
+  if (err) {
+    return console.log(err)
+  };
+  db = database
 
-    console.log('db connected')
+  console.log('db connected')
 });
+app.use(express.static('images'));
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 app.use('/api/cocktails', cock);
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 // app.use(express.static('public'));
 // app.use(express.static('public'));
 // app.use('/', express.static(path.join(__dirname, 'uploads')));
@@ -41,9 +47,9 @@ app.use('/api/cocktails', cock);
 // app.get('*', function (req, res) {
 //     res.sendFile(path.join(__dirname, './client/build', 'index.html'));
 //   });
-  if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('client/build')); 
-  }
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
 app.listen(PORT, () => {
-    console.log(`Server is running on PORT ${PORT}`);
+  console.log(`Server is running on PORT ${PORT}`);
 });

@@ -2,5 +2,4 @@
 /daemon
 /uploads
 /public/uploads
-/client/node_modules
 .env
